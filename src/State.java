@@ -1,5 +1,5 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class State
 {
@@ -8,12 +8,17 @@ public class State
 	private int id;
 	private boolean isStartState;
 	private boolean isAcceptState;
-	private Map<String, State> transitions;
+	private List<Transition> transitions;
 	
 	public State()
 	{
 		id = newStateId++;
-		transitions = new HashMap<String, State>();
+		transitions = new ArrayList<Transition>();
+	}
+	
+	public void addTransition(Transition transition)
+	{
+		transitions.add(transition);
 	}
 	
 	//--------------------------------------------------------------------------------
@@ -44,7 +49,7 @@ public class State
 		this.isAcceptState = isAcceptState;
 	}
 
-	public Map<String, State> getTransitions()
+	public List<Transition> getTransitions()
 	{
 		return transitions;
 	}

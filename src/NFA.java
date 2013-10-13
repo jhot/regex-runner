@@ -27,7 +27,7 @@ public class NFA
 			State finalState = new State();
 			
 			startState.setIsStartState(true);
-			startState.getTransitions().put(symbol, finalState);
+			startState.getTransitions().add(new Transition(symbol, finalState));
 			finalState.setIsAcceptState(true);
 			
 			nfa.addState(startState);
@@ -46,19 +46,67 @@ public class NFA
 		states.add(state);
 	}
 	
-	public NFA concatenate(NFA other)
+	public void addAllStates(NFA other)
 	{
+		for (State state : other.getStates())
+		{
+			states.add(state);
+		}
+	}
+	
+	public State getStartState()
+	{
+		for (State state : states)
+		{
+			if (state.isStartState())
+			{
+				return state;
+			}
+		}
+		return null;
+	}
+	
+	public Set<State> getAcceptStates()
+	{
+		Set<State> result = new LinkedHashSet<State>();
+		for (State state : states)
+		{
+			if (state.isAcceptState())
+			{
+				result.add(state);
+			}
+		}
+		return result;
+	}
+	
+	public void concatenate(NFA other)
+	{
+		Set<State> finalStates = getAcceptStates();
+		State otherStartState = other.getStartState();
 		
+		// add all states from the other NFA
+		addAllStates(other);
+		
+		// remove all our final states, and add epsilon transitions
+		// from them to the other NFA's start state
+		for (State state : finalStates)
+		{
+			state.setIsAcceptState(false);
+			state.addTransition(new Transition(EPSILON, otherStartState));
+		}
+		
+		// remove start state from the other NFA
+		otherStartState.setIsStartState(false);
 		
 		throw new RuntimeException("not implemented");
 	}
 	
-	public NFA wrapInKleeneClosure()
+	public void wrapInKleeneClosure()
 	{
 		throw new RuntimeException("not implemented");
 	}
 	
-	public NFA union(NFA other)
+	public void union(NFA other)
 	{
 		throw new RuntimeException("not implemented");
 	}
