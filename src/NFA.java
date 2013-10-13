@@ -97,8 +97,6 @@ public class NFA
 		
 		// remove start state from the other NFA
 		otherStartState.setIsStartState(false);
-		
-		throw new RuntimeException("not implemented");
 	}
 	
 	public void wrapInKleeneClosure()
@@ -108,7 +106,23 @@ public class NFA
 	
 	public void union(NFA other)
 	{
-		throw new RuntimeException("not implemented");
+		State ourStartState = getStartState();
+		State otherStartState = other.getStartState();
+		
+		// add all states from the other NFA
+		addAllStates(other);
+		
+		// add a new state start state with epsilon transitions to the
+		// old start states
+		State newStartState = new State();
+		newStartState.setIsStartState(true);
+		newStartState.addTransition(new Transition(EPSILON, ourStartState));
+		newStartState.addTransition(new Transition(EPSILON, otherStartState));
+		addState(newStartState);
+		
+		// remove start state status from the old start states
+		ourStartState.setIsStartState(false);
+		otherStartState.setIsStartState(false);
 	}
 	
 	//--------------------------------------------------------------------------------
