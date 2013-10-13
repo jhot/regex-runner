@@ -101,7 +101,25 @@ public class NFA
 	
 	public void wrapInKleeneClosure()
 	{
-		throw new RuntimeException("not implemented");
+		State oldStartState = getStartState();
+		Set<State> finalStates = getAcceptStates();
+		
+		// add a new start state, set as accept state, and add epsilon
+		// transition from it to the old start state
+		State newStartState = new State();
+		newStartState.setIsStartState(true);
+		newStartState.setIsAcceptState(true);
+		newStartState.addTransition(new Transition(EPSILON, oldStartState));
+		
+		// add epsilon transitions from all final states to the old
+		// start state
+		for (State finalState : finalStates)
+		{
+			finalState.addTransition(new Transition(EPSILON, oldStartState));
+		}
+		
+		// remove old start state's accept status
+		oldStartState.setIsStartState(false);
 	}
 	
 	public void union(NFA other)
