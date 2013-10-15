@@ -8,7 +8,6 @@ public class NFAParser
 	{
 		if (DEBUG) System.out.println("\n********** Parse to NFA: " + inputString + " **********");
 		inputString = inputString.toLowerCase().trim();
-		inputString = addExtraParenthesesToExpression(inputString);
 		
 		if (DEBUG) System.out.println("NFAParser->added parenthesis to create string \"" + inputString + "\"");
 		
@@ -22,7 +21,6 @@ public class NFAParser
 			
 			int charactersToSkip = 0;
 			NFA newNfa = null;
-			
 			
 			// build a new NFA for the symbol. if an 'a, b, or e' is read, build an Nfa for the
 			// single symbol. if an '(' or '|' is read, recursively call this function to build an Nfa for the
@@ -58,18 +56,17 @@ public class NFAParser
 				}
 				case "|":
 				{
-					// cut everything from the "|(" to its associated closing ")"
+					// cut everything from the "|(" to the end since | is the lowest priority
+					// in order of operations
 					String remainingInput = inputString.substring(index + 1);
-					String innerExpression = getFirstInnerExpressionSubstring(remainingInput);
 					
-					if (DEBUG) System.out.println("NFAParser->inner expression is \"" + innerExpression + "\"");
+					if (DEBUG) System.out.println("NFAParser->expression to union to current NFA is \"" + remainingInput + "\"");
 					
 					// parse everything between |( ... ) to a new NFA
-					newNfa = parseStringToNfa(innerExpression);
+					newNfa = parseStringToNfa(remainingInput);
 					if (DEBUG) System.out.println();
 					
-					// innerExpression does not include the ( ... ), so add 2
-					charactersToSkip = innerExpression.length() + 2;
+					charactersToSkip = remainingInput.length();
 					
 					break;
 				}
@@ -125,73 +122,6 @@ public class NFAParser
 		if (DEBUG) System.out.println("--------------------------------------------------");
 		
 		return result;
-	}
-	
-	/**
-	 * Add extra parenthesis to expression to ensure that there is a '(' immediately
-	 * following each union operator. For example, running this method with an input
-	 * of "(a|aa*(b|b))" will return '(a|(aa*(b|(b))))
-	 * 
-	 * @param expression
-	 * @return
-	 */
-	private static String addExtraParenthesesToExpression(String expression)
-	{
-		int indexOfFirstCorrection = -1;
-		for (int i = 0; i < expression.length() - 1; i++)
-		{
-			char symbol = expression.charAt(i);
-			char nextSymbol = expression.charAt(i + 1);
-			if (symbol == '|' && nextSymbol != '(')
-			{
-				indexOfFirstCorrection = i;
-				break;
-			}
-		}
-		if (indexOfFirstCorrection != -1)
-		{
-			// find the length from the symbol after the '|' to the first ')' that is NOT
-			// a complete subexpression itself. OR find the length from the symbol after the '|' to
-			// the end of the string, whichever comes first.
-			String remainingInput = expression.substring(indexOfFirstCorrection + 1);
-			int unionExpressionLength = getUnionExpressionLength(remainingInput);
-			
-			int j = indexOfFirstCorrection + 1;
-			int k = j + unionExpressionLength;
-		
-			String corrected = expression.substring(0, k) + ")" + expression.substring(k);
-			corrected = corrected.substring(0, j) + "(" + corrected.substring(j);
-			return addExtraParenthesesToExpression(corrected);
-		}
-		return expression;
-	}
-	
-	private static int getUnionExpressionLength(String expression)
-	{
-		int index = 0;
-		int count = 1;
-		while (count != 0 && (index < expression.length()))
-		{
-			char c = expression.charAt(index);
-			if (c == ')')
-			{
-				count--;
-			}
-			if (c == '(')
-			{
-				count++;
-			}
-			index++;
-		}
-		// two possible cases: first, the string ends in a regular character,
-		// i.e. expression is "bb" from the original input string "a|bb".
-		// second, the string ends in a parenthesis. i.e. "bb)" from the original input
-		// string "(a|bb)". in the second case, one extra character needs to be cut off
-		if (expression.charAt(expression.length() - 1) == ')')
-		{
-			index--;
-		}
-		return index;
 	}
 	
 	/**
