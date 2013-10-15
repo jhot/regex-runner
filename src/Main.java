@@ -2,6 +2,8 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		System.out.println("Hello, World!");
+		NFAParser.parseStringToNfa("(a|b)*a");
+		NFAParser.parseStringToNfa("((a|b)(a|b))*");
+		NFAParser.parseStringToNfa("aaa*b*a*a");
 	}
 }

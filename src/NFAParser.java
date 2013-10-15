@@ -117,7 +117,7 @@ public class NFAParser
 			index++;
 		}
 		if (DEBUG) System.out.println("--------------------------------------------------");
-		if (DEBUG) System.out.println("Finished parsing NFA to:");
+		if (DEBUG) System.out.println("Finished parsing \"" + inputString + "\" to:");
 		if (DEBUG) System.out.println(result);
 		if (DEBUG) System.out.println("--------------------------------------------------");
 		
