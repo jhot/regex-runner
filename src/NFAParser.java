@@ -1,4 +1,5 @@
 
+
 public class NFAParser
 {
 	public static NFA parseStringToNfa(String inputString)
@@ -12,14 +13,13 @@ public class NFAParser
 		while (index < inputString.length())
 		{
 			String symbol = inputString.charAt(index) + "";
-			String nextSymbol = (index + 1) < inputString.length() ? inputString.charAt(index + 1) + "" : "";
 			
 			int charactersToSkip = 0;
+			NFA newNfa = null;
 			
 			// build a new NFA for the symbol. if an 'a, b, or e' is read, build an Nfa for the
 			// single symbol. if an '(' or '|' is read, recursively call this function to build an Nfa for the
 			// sub expression. if a '*' is read, do nothing.
-			NFA newNfa = null;
 			switch (symbol)
 			{
 				case "a":
@@ -58,6 +58,11 @@ public class NFAParser
 					// nothing to do... * is handled by looking at the next symbol.
 				}
 			}
+			// find the next symbol, i.e. pretend next symbol is the symbol
+			// after the ( ... ) or |( ... ) if a "(" or "|" has been read
+			int nextSymbolIndex = index + 1 + charactersToSkip;
+			String nextSymbol = (nextSymbolIndex < inputString.length()) ? inputString.charAt(nextSymbolIndex) + "" : "";
+			
 			// combine the Nfa with the current result. check ahead for the * symbol,
 			// and wrap the current Nfa in a kleene closure if the *next* input symbol
 			// is a '*'. otherwise, concatenate / union appropriately
