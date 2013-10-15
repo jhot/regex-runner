@@ -110,6 +110,7 @@ public class NFA
 		newStartState.setIsStartState(true);
 		newStartState.setIsAcceptState(true);
 		newStartState.addTransition(new Transition(EPSILON, oldStartState));
+		addState(newStartState);
 		
 		// add epsilon transitions from all final states to the old
 		// start state
