@@ -36,39 +36,48 @@ public class NFAParser
 				{
 					if (DEBUG) System.out.println("NFAParser->createNfaForSymbol->" + symbol);
 					newNfa = NFA.createNfaForSymbol(symbol);
+					
+					break;
 				}
 				case "(":
 				{
 					// cut everything from this "(" to its associated closing ")"
-					String remainingInput = inputString.substring(index + 1);
+					String remainingInput = inputString.substring(index);
 					String innerExpression = getFirstInnerExpressionSubstring(remainingInput);
 					
 					if (DEBUG) System.out.println("NFAParser->inner expression is \"" + innerExpression + "\"");
 					
 					// parse everything between ( ... ) to a new NFA
 					newNfa = parseStringToNfa(innerExpression);
+					if (DEBUG) System.out.println();
 				
 					// innerExpression does not include the ( ... ), so add 1 (since
 					// we are currently on the "(" character.
 					charactersToSkip = innerExpression.length() + 1;
+					
+					break;
 				}
 				case "|":
 				{
 					// cut everything from the "|(" to its associated closing ")"
-					String remainingInput = inputString.substring(index + 2);
+					String remainingInput = inputString.substring(index + 1);
 					String innerExpression = getFirstInnerExpressionSubstring(remainingInput);
 					
 					if (DEBUG) System.out.println("NFAParser->inner expression is \"" + innerExpression + "\"");
 					
 					// parse everything between |( ... ) to a new NFA
 					newNfa = parseStringToNfa(innerExpression);
+					if (DEBUG) System.out.println();
 					
 					// innerExpression does not include the ( ... ), so add 2
 					charactersToSkip = innerExpression.length() + 2;
+					
+					break;
 				}
 				case "*":
 				{
 					// nothing to do... * is handled by looking at the next symbol.
+					break;
 				}
 			}
 			// find the next symbol, i.e. pretend next symbol is the symbol
@@ -93,7 +102,7 @@ public class NFAParser
 				// if there is no result yet, set result to newNfa
 				if (result == null)
 				{
-					if (DEBUG) System.out.println("NFAParser->set result to new NFA (concatenate to e)");
+					if (DEBUG) System.out.println("NFAParser->set result to new NFA");
 					result = newNfa;
 				}
 				// if we are on a union symbol, union newNfa with the result
@@ -204,11 +213,12 @@ public class NFAParser
 			{
 				count--;
 			}
-			else if (c == '(');
+			else if (c == '(')
 			{
 				count++;
 			}
+			index++;
 		}
-		return expression.substring(1, index);
+		return expression.substring(1, index - 1);
 	}
 }
