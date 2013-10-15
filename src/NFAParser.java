@@ -2,10 +2,16 @@
 
 public class NFAParser
 {
+	private static final boolean DEBUG = false;
+	
 	public static NFA parseStringToNfa(String inputString)
 	{
+		if (DEBUG) System.out.println("\n********** Parse String to NFA **********");
+		if (DEBUG) System.out.println("NFAParser->begin parsing string \"" + inputString + "\"");
 		inputString = inputString.toLowerCase().trim();
 		inputString = addExtraParenthesesToExpression(inputString);
+		
+		if (DEBUG) System.out.println("NFAParser->added parenthesis to create string \"" + inputString + "\"");
 		
 		int index = 0;
 		NFA result = null;
@@ -13,9 +19,11 @@ public class NFAParser
 		while (index < inputString.length())
 		{
 			String symbol = inputString.charAt(index) + "";
+			if (DEBUG) System.out.println("NFAParser->read symbol " + symbol);
 			
 			int charactersToSkip = 0;
 			NFA newNfa = null;
+			
 			
 			// build a new NFA for the symbol. if an 'a, b, or e' is read, build an Nfa for the
 			// single symbol. if an '(' or '|' is read, recursively call this function to build an Nfa for the
@@ -26,6 +34,7 @@ public class NFAParser
 				case "b":
 				case "e":
 				{
+					if (DEBUG) System.out.println("NFAParser->createNfaForSymbol->" + symbol);
 					newNfa = NFA.createNfaForSymbol(symbol);
 				}
 				case "(":
@@ -33,6 +42,8 @@ public class NFAParser
 					// cut everything from this "(" to its associated closing ")"
 					String remainingInput = inputString.substring(index + 1);
 					String innerExpression = getFirstInnerExpressionSubstring(remainingInput);
+					
+					if (DEBUG) System.out.println("NFAParser->inner expression is \"" + innerExpression + "\"");
 					
 					// parse everything between ( ... ) to a new NFA
 					newNfa = parseStringToNfa(innerExpression);
@@ -46,6 +57,8 @@ public class NFAParser
 					// cut everything from the "|(" to its associated closing ")"
 					String remainingInput = inputString.substring(index + 2);
 					String innerExpression = getFirstInnerExpressionSubstring(remainingInput);
+					
+					if (DEBUG) System.out.println("NFAParser->inner expression is \"" + innerExpression + "\"");
 					
 					// parse everything between |( ... ) to a new NFA
 					newNfa = parseStringToNfa(innerExpression);
@@ -63,6 +76,8 @@ public class NFAParser
 			int nextSymbolIndex = index + 1 + charactersToSkip;
 			String nextSymbol = (nextSymbolIndex < inputString.length()) ? inputString.charAt(nextSymbolIndex) + "" : "";
 			
+			if (DEBUG) System.out.println("NFAParser->next symbol is " + nextSymbol);
+			
 			// combine the Nfa with the current result. check ahead for the * symbol,
 			// and wrap the current Nfa in a kleene closure if the *next* input symbol
 			// is a '*'. otherwise, concatenate / union appropriately
@@ -71,21 +86,25 @@ public class NFAParser
 				// apply the kleene closure if necessary
 				if (nextSymbol.equals("*"))
 				{
+					if (DEBUG) System.out.println("NFAParser->next symbol is * - wrapping NFA in Kleene closure");
 					newNfa.wrapInKleeneClosure();
 				}
 				
 				// if there is no result yet, set result to newNfa
 				if (result == null)
 				{
+					if (DEBUG) System.out.println("NFAParser->set result to new NFA (concatenate to e)");
 					result = newNfa;
 				}
 				// if we are on a union symbol, union newNfa with the result
 				else if (symbol.equals("|"))
 				{
+					if (DEBUG) System.out.println("NFAParser->union new NFA with previous NFA");
 					result.union(newNfa);
 				}
 				else
 				{
+					if (DEBUG) System.out.println("NFAParser->concatenate new NFA to previous NFA");
 					result.concatenate(newNfa);
 				}
 			}
