@@ -19,4 +19,10 @@ public class Transition
 	{
 		return nextState;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return symbol + "->" + nextState.getId();
+	}
 }

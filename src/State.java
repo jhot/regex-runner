@@ -66,4 +66,30 @@ public class State
 		}
 		return super.equals(obj);
 	}
+	
+	@Override
+	public String toString()
+	{
+		String result = "";
+		if (isStartState)
+		{
+			result += "S";
+		}
+		if (isAcceptState)
+		{
+			result += "A";
+		}
+		result += "(" + id + "){";
+		for (Transition t : transitions)
+		{
+			result += t + ",";
+		}
+		int commaIndex = result.lastIndexOf(",");
+		if (commaIndex >= 0)
+		{
+			result = result.substring(0, commaIndex);
+		}
+		result += "}";
+		return result;
+	}
 }

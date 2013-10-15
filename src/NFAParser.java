@@ -6,8 +6,7 @@ public class NFAParser
 	
 	public static NFA parseStringToNfa(String inputString)
 	{
-		if (DEBUG) System.out.println("\n********** Parse String to NFA **********");
-		if (DEBUG) System.out.println("NFAParser->begin parsing string \"" + inputString + "\"");
+		if (DEBUG) System.out.println("\n********** Parse to NFA: " + inputString + " **********");
 		inputString = inputString.toLowerCase().trim();
 		inputString = addExtraParenthesesToExpression(inputString);
 		
@@ -120,6 +119,11 @@ public class NFAParser
 			index += charactersToSkip;
 			index++;
 		}
+		if (DEBUG) System.out.println("--------------------------------------------------");
+		if (DEBUG) System.out.println("Finished parsing NFA to:");
+		if (DEBUG) System.out.println(result);
+		if (DEBUG) System.out.println("--------------------------------------------------");
+		
 		return result;
 	}
 	
