@@ -3,9 +3,9 @@ import java.util.Set;
 
 public class Converter
 {
-	public static Automaton convertNfaToDfa(Automaton nfa, Set<String> alphabet)
+	public static DFA convertNfaToDfa(Automaton nfa, Set<String> alphabet)
 	{
-		Automaton dfa = new Automaton();
+		DFA dfa = new DFA();
 		
 		Set<State> startStates = nfa.getStartState().epsilonClosure();
 		ConverterState startState = new ConverterState(startStates);

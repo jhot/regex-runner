@@ -25,6 +25,16 @@ public class State
 		transitions.add(transition);
 	}
 	
+	public State getNextDfaStateForSymbol(String symbol)
+	{
+		Set<State> nextStates = getNextStatesForSymbol(symbol);
+		if (nextStates.size() != 1)
+		{
+			return null;
+		}
+		return new ArrayList<State>(nextStates).get(0);
+	}
+	
 	public Set<State> getNextStatesForSymbol(String symbol)
 	{
 		Set<State> result = new LinkedHashSet<State>();
