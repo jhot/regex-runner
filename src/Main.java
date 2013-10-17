@@ -53,30 +53,30 @@ public class Main
 				input16, dfa1.acceptsString(alphabet, input16)));
 		
 		System.out.println(String.format("\n%s accepts %s ? %s", "((a|b)(a|b))*",
-				input21, dfa1.acceptsString(alphabet, input21)));
+				input21, dfa2.acceptsString(alphabet, input21)));
 		// System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-		// 		input22, dfa1.acceptsString(alphabet, input22)));
+		// 		input22, dfa2.acceptsString(alphabet, input22)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-				input23, dfa1.acceptsString(alphabet, input23)));
+				input23, dfa2.acceptsString(alphabet, input23)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-				input24, dfa1.acceptsString(alphabet, input24)));
+				input24, dfa2.acceptsString(alphabet, input24)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-				input25, dfa1.acceptsString(alphabet, input25)));
+				input25, dfa2.acceptsString(alphabet, input25)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-				input26, dfa1.acceptsString(alphabet, input26)));
+				input26, dfa2.acceptsString(alphabet, input26)));
 		
 		System.out.println(String.format("\n%s accepts %s ? %s", "aaa*b*a*a",
-				input31, dfa1.acceptsString(alphabet, input31)));
+				input31, dfa3.acceptsString(alphabet, input31)));
 		System.out.println(String.format("%s accepts %s ? %s", "aaa*b*a*a",
-				input32, dfa1.acceptsString(alphabet, input32)));
+				input32, dfa3.acceptsString(alphabet, input32)));
 		System.out.println(String.format("%s accepts %s ? %s", "aaa*b*a*a",
-				input33, dfa1.acceptsString(alphabet, input33)));
+				input33, dfa3.acceptsString(alphabet, input33)));
 		System.out.println(String.format("%s accepts %s ? %s", "aaa*b*a*a",
-				input34, dfa1.acceptsString(alphabet, input34)));
+				input34, dfa3.acceptsString(alphabet, input34)));
 		System.out.println(String.format("%s accepts %s ? %s", "aaa*b*a*a",
-				input35, dfa1.acceptsString(alphabet, input35)));
+				input35, dfa3.acceptsString(alphabet, input35)));
 		System.out.println(String.format("%s accepts %s ? %s", "aaa*b*a*a",
-				input36, dfa1.acceptsString(alphabet, input36)));
+				input36, dfa3.acceptsString(alphabet, input36)));
 		
 		NFA nfa = new NFA();
 		State[] states = new State[11];
