@@ -8,6 +8,7 @@ public class State
 	public static int newStateId = 1;
 	
 	private int id;
+	private boolean visited;
 	private Object data;
 	private boolean isStartState;
 	private boolean isAcceptState;
@@ -22,6 +23,19 @@ public class State
 	public void addTransition(Transition transition)
 	{
 		transitions.add(transition);
+	}
+	
+	public Set<State> getNextStatesForSymbol(String symbol)
+	{
+		Set<State> result = new LinkedHashSet<State>();
+		for (Transition t : transitions)
+		{
+			if (symbol.equals(t.getSymbol()))
+			{
+				result.add(t.getNextState());
+			}
+		}
+		return result;
 	}
 	
 	public Set<State> epsilonClosure()
@@ -61,6 +75,16 @@ public class State
 	public Object getData()
 	{
 		return data;
+	}
+	
+	public boolean isVisited()
+	{
+		return visited;
+	}
+	
+	public void setVisited(boolean visited)
+	{
+		this.visited = visited;
 	}
 	
 	public void setData(Object data)
