@@ -1,13 +1,8 @@
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 
-public class NFA
-{
-	public static final String EPSILON = "e";
-	
-	private Set<State> states;
-	
+public class NFA extends Automaton
+{	
 	public static NFA createNfaForSymbol(String symbol)
 	{
 		if (symbol.equalsIgnoreCase(EPSILON))
@@ -34,49 +29,6 @@ public class NFA
 			nfa.addState(finalState);
 			return nfa;
 		}
-	}
-	
-	public NFA()
-	{
-		states = new LinkedHashSet<State>();
-	}
-	
-	public void addState(State state)
-	{
-		states.add(state);
-	}
-	
-	public void addAllStates(NFA other)
-	{
-		for (State state : other.getStates())
-		{
-			states.add(state);
-		}
-	}
-	
-	public State getStartState()
-	{
-		for (State state : states)
-		{
-			if (state.isStartState())
-			{
-				return state;
-			}
-		}
-		return null;
-	}
-	
-	public Set<State> getAcceptStates()
-	{
-		Set<State> result = new LinkedHashSet<State>();
-		for (State state : states)
-		{
-			if (state.isAcceptState())
-			{
-				result.add(state);
-			}
-		}
-		return result;
 	}
 	
 	public void concatenate(NFA other)
@@ -142,22 +94,5 @@ public class NFA
 		// remove start state status from the old start states
 		ourStartState.setIsStartState(false);
 		otherStartState.setIsStartState(false);
-	}
-	
-	//--------------------------------------------------------------------------------
-	// Getters and Setters
-	//--------------------------------------------------------------------------------
-	public Set<State> getStates()
-	{
-		return states;
-	}
-	
-	//--------------------------------------------------------------------------------
-	// Helpers
-	//--------------------------------------------------------------------------------
-	@Override
-	public String toString()
-	{
-		return states.toString();
 	}
 }
