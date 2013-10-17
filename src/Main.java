@@ -54,8 +54,8 @@ public class Main
 		
 		System.out.println(String.format("\n%s accepts %s ? %s", "((a|b)(a|b))*",
 				input21, dfa2.acceptsString(alphabet, input21)));
-		// System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
-		// 		input22, dfa2.acceptsString(alphabet, input22)));
+		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
+		 		input22, dfa2.acceptsString(alphabet, input22)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",
 				input23, dfa2.acceptsString(alphabet, input23)));
 		System.out.println(String.format("%s accepts %s ? %s", "((a|b)(a|b))*",

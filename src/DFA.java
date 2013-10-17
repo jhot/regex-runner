@@ -13,6 +13,10 @@ public class DFA extends Automaton
 		for (int i = 0; i < inputString.length(); i++)
 		{
 			String symbol = inputString.charAt(i) + "";
+			if (Transition.EPSILON.equals(symbol))
+			{
+				continue;
+			}
 			state = state.getNextDfaStateForSymbol(symbol);
 		}
 		return state.isAcceptState();
