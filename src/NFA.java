@@ -5,7 +5,7 @@ public class NFA extends Automaton
 {	
 	public static NFA createNfaForSymbol(String symbol)
 	{
-		if (symbol.equalsIgnoreCase(EPSILON))
+		if (symbol.equalsIgnoreCase(Transition.EPSILON))
 		{
 			State state = new State();
 			state.setIsStartState(true);
@@ -44,7 +44,7 @@ public class NFA extends Automaton
 		for (State state : finalStates)
 		{
 			state.setIsAcceptState(false);
-			state.addTransition(new Transition(EPSILON, otherStartState));
+			state.addTransition(new Transition(Transition.EPSILON, otherStartState));
 		}
 		
 		// remove start state from the other NFA
@@ -61,14 +61,14 @@ public class NFA extends Automaton
 		State newStartState = new State();
 		newStartState.setIsStartState(true);
 		newStartState.setIsAcceptState(true);
-		newStartState.addTransition(new Transition(EPSILON, oldStartState));
+		newStartState.addTransition(new Transition(Transition.EPSILON, oldStartState));
 		addState(newStartState);
 		
 		// add epsilon transitions from all final states to the old
 		// start state
 		for (State finalState : finalStates)
 		{
-			finalState.addTransition(new Transition(EPSILON, oldStartState));
+			finalState.addTransition(new Transition(Transition.EPSILON, oldStartState));
 		}
 		
 		// remove old start state's accept status
@@ -87,8 +87,8 @@ public class NFA extends Automaton
 		// old start states
 		State newStartState = new State();
 		newStartState.setIsStartState(true);
-		newStartState.addTransition(new Transition(EPSILON, ourStartState));
-		newStartState.addTransition(new Transition(EPSILON, otherStartState));
+		newStartState.addTransition(new Transition(Transition.EPSILON, ourStartState));
+		newStartState.addTransition(new Transition(Transition.EPSILON, otherStartState));
 		addState(newStartState);
 		
 		// remove start state status from the old start states

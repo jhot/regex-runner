@@ -1,6 +1,8 @@
 
 public class Transition
 {
+	public static final String EPSILON = "e";
+	
 	private String symbol;
 	private State nextState;
 	

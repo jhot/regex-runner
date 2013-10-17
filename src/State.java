@@ -1,11 +1,14 @@
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class State
 {
-	public static int newStateId = 0;
+	public static int newStateId = 1;
 	
 	private int id;
+	private Object data;
 	private boolean isStartState;
 	private boolean isAcceptState;
 	private List<Transition> transitions;
@@ -21,12 +24,48 @@ public class State
 		transitions.add(transition);
 	}
 	
+	public Set<State> epsilonClosure()
+	{
+		return epsilonClosure(new ArrayList<State>());
+	}
+	
+	private Set<State> epsilonClosure(List<State> visitedStates)
+	{
+		visitedStates.add(this);
+		
+		Set<State> result = new LinkedHashSet<State>();
+		result.add(this);
+		
+		for (Transition t : transitions)
+		{
+			if (Transition.EPSILON.equals(t.getSymbol()))
+			{
+				State next = t.getNextState();
+				if (!visitedStates.contains(next))
+				{
+					result.addAll(next.epsilonClosure());
+				}
+			}
+		}
+		return result;
+	}
+	
 	//--------------------------------------------------------------------------------
 	// Getters and Setters
 	//--------------------------------------------------------------------------------
 	public int getId()
 	{
 		return id;
+	}
+	
+	public Object getData()
+	{
+		return data;
+	}
+	
+	public void setData(Object data)
+	{
+		this.data = data;
 	}
 
 	public boolean isStartState()

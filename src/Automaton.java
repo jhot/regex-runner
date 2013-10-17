@@ -3,9 +3,7 @@ import java.util.Set;
 
 
 public class Automaton
-{
-	public static final String EPSILON = "e";
-	
+{	
 	private Set<State> states;
 	
 	public Automaton()
