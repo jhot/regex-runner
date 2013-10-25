@@ -2,7 +2,7 @@ import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Main
+public class proj1
 {
 	public static void main(String[] args)
 	{
