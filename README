@@ -1,0 +1,45 @@
+********************************************************************************
+CSCE 428
+Project 1: Regular Expressions
+John Hotovy
+October 27, 2013
+********************************************************************************
+
+Compiling:
+********************************************************************************
+Compile with javac, for example:
+~> javac proj1.java
+
+Running:
+********************************************************************************
+Run with java, for example:
+~> java proj1 < {input_file_name}
+
+Source Files:
+********************************************************************************
+1. Automaton.java  - Wrapper data structure class containing a Set of States
+    and utility methods to add states and retrieve start / accept states.
+
+2. Converter.java - Converts NFA's to DFA's using a ConverterState subclass
+    and the algorithm described in class.
+
+3. DFA.java - Subclass of Automaton. Includes utility methods to tell if the
+    Automaton is a valid DFA and check whether input strings are accepted.
+    
+4. NFA.java - Subclass of Automaton. Contains utility methods to create an NFA
+    for a given input symbol, wrap the NFA in a Kleene Closure, and union or
+    concatenate the NFA with another NFA.
+
+5. NFAParser.java - Converts regular expression input strings into equivalent NFA's.
+
+6. proj1.java - Main class which reads input from the stdin, builds an equivalent DFA
+    for the given regular expression, tests the given input strings against the DFA, and
+    outputs the results to stdout.
+    
+7. RegexRunnerTestCase - Contains additional test cases that can be run with jUnit.
+
+8. State.java - Data model class which has an id, additional data, start / accept status,
+    and a list of transitions. Also contains methods to find the next state for a given symbol
+    (for DFA's) and find the epsilon closure (for NFA's).
+    
+9. Transition.java - Data model class which holds a symbol and the next state for that symbol.
