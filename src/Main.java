@@ -19,6 +19,11 @@ public class Main
 		while (scanner.hasNextLine())
 		{
 			String inputString = scanner.nextLine().trim().toLowerCase();
+			if (inputString.length() == 0 && !scanner.hasNextLine())
+			{
+				// the last line in the file is blank - don't print yes / no
+				break;
+			}
 			String output = dfa.acceptsString(alphabet, inputString) ? "yes" : "no";
 			System.out.println(output);
 		}
