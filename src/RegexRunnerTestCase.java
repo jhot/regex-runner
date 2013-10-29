@@ -7,7 +7,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class RegexRunnerTestCase
 {
 	private Set<String> alphabet;

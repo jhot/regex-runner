@@ -1,5 +1,6 @@
-
-
+/**
+ * Converts regular expression input strings into equivalent NFA's.
+ */
 public class NFAParser
 {
 	private static final boolean DEBUG = false;

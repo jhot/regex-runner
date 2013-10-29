@@ -1,6 +1,9 @@
 import java.util.Set;
 
-
+/**
+ * Subclass of Automaton. Includes utility methods to tell if the Automaton
+ * is a valid DFA and check whether input strings are accepted
+ */
 public class DFA extends Automaton
 {
 	public boolean acceptsString(Set<String> alphabet, String inputString)
@@ -12,6 +15,8 @@ public class DFA extends Automaton
 		State state = getStartState();
 		for (int i = 0; i < inputString.length(); i++)
 		{
+			// ignore epsilon's, i.e. they don't move us to a new state. this
+			// can only happen if the original string is just "e".
 			String symbol = inputString.charAt(i) + "";
 			if (Transition.EPSILON.equals(symbol))
 			{

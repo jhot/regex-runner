@@ -3,6 +3,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Data model class which has an id, additional data, start / accept status
+ * and a list of transitions. Also contains methods to find the next state
+ * for a given symbol (for DFA's) and find the epsilon closure (for NFA's).
+ */
 public class State
 {
 	public static int newStateId = 1;
@@ -27,6 +32,7 @@ public class State
 	
 	public State getNextDfaStateForSymbol(String symbol)
 	{
+		// this should only be used in a DFA
 		Set<State> nextStates = getNextStatesForSymbol(symbol);
 		if (nextStates.size() != 1)
 		{
@@ -37,6 +43,7 @@ public class State
 	
 	public Set<State> getNextStatesForSymbol(String symbol)
 	{
+		// this should only be used in an NFA
 		Set<State> result = new LinkedHashSet<State>();
 		for (Transition t : transitions)
 		{

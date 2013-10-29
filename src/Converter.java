@@ -1,6 +1,10 @@
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * Converts NFA's to DFA's using a ConverterState subclass and the algorithm 
+ * described in class.
+ */
 public class Converter
 {
 	public static DFA convertNfaToDfa(Automaton nfa, Set<String> alphabet)
@@ -12,6 +16,10 @@ public class Converter
 		startState.setIsStartState(true);
 		dfa.addState(startState);
 		
+		// each converter state only needs to be visited once. keep running
+		// this loop until all converter states are visited (i.e. a transition
+		// is added to some other converter states for every symbol in the alphabet)
+		// some new converter states may be added during this process
 		ConverterState state = null;
 		while ((state = getFirstUnvisitedState(dfa)) != null)
 		{
@@ -51,6 +59,11 @@ public class Converter
 		return (ConverterState)state;
 	}
 	
+	/**
+	 * Each converter state represents a single state in the new DFA. It is uniquely identified
+	 * by its subset of NFA states. i.e. two ConverterStates are equal if their set of
+	 * NFA states are equal.
+	 */
 	private static class ConverterState extends State
 	{
 		public ConverterState(Set<State> nfaStates)
@@ -82,6 +95,9 @@ public class Converter
 		
 		public ConverterState createNextStateForSymbol(String symbol)
 		{
+			// the new DFA state contains all the NFA states that can be reached
+			// from one of our NFA states by following the given symbol and
+			// then any number of epsilon's
 			Set<State> nextNfaStates = getNextNfaStatesForSymbol(symbol);
 			Set<State> result = new LinkedHashSet<State>();
 			

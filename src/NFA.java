@@ -1,10 +1,18 @@
 import java.util.Set;
 
-
+/**
+ * Subclass of Automaton. Contains utility methods to create an NFA for a given
+ * input symbol, wrap the NFA in a Kleene closure and union or concatenate the NFA
+ * with another NFA.
+ * 
+ * NOTE: all these methods modify both NFA's in the operation. You should throw away
+ * the NFA you concatenate / union to this NFA after you do the operation.
+ */
 public class NFA extends Automaton
 {	
 	public static NFA createNfaForSymbol(String symbol)
 	{
+		// special case for epsilon (start and end are the same)
 		if (symbol.equalsIgnoreCase(Transition.EPSILON))
 		{
 			State state = new State();
@@ -15,6 +23,7 @@ public class NFA extends Automaton
 			nfa.addState(state);
 			return nfa;
 		}
+		// all other symbols in the alphabet
 		else
 		{
 			NFA nfa = new NFA();

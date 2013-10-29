@@ -1,7 +1,10 @@
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
+/**
+ * Wrapper data structure containing a set of States and utility methods to add states
+ * and retrieve start and accept states
+ */
 public class Automaton
 {	
 	private Set<State> states;
